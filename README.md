@@ -1,12 +1,25 @@
-# React + Vite
+# Pawfect-Home 🐾🏡
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Pawfect-Home** is a web application for free adoption of animals.  
+It is a platform where users can create an account and post animals that are looking for a new home.  
+The goal is to connect people who want to adopt pets with those who can no longer take care of them — all without financial gain.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- **User Accounts** – Register and log in with your personal account.
+- **Post Animals** – Add details, description, and photo of the animal.
+- **Browse Pets** – Search and filter animals by type, age, or other attributes.
+- **Adoption-Only** – No sales, just free adoption for all kinds of pets (dogs, cats, rabbits, birds, etc.).
+- **Responsive UI** – Clean, modern interface optimized for mobile and desktop.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🛠️ Tech Stack
+
+- [Vite](https://vitejs.dev/) – Fast build tool for modern web apps.
+- [React](https://react.dev/) – Frontend library for building UI components.
+- [Tailwind CSS](https://tailwindcss.com/) – Utility-first CSS framework.
+- [DaisyUI](https://daisyui.com/) – Component library for Tailwind.
+- [Firebase](https://firebase.google.com/) – Backend for authentication, database, and hosting.
