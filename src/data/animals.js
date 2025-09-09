@@ -1,4 +1,4 @@
-// Animal options used across the app
+// Animals
 export const ANIMAL_OPTIONS = [
   { value: "dog",        label: "Dog" },
   { value: "cat",        label: "Cat" },
@@ -12,7 +12,7 @@ export const ANIMAL_OPTIONS = [
   { value: "other",      label: "Other" },
 ];
 
-// Minimal breed lists; expand anytime
+// Breeds
 export const BREEDS_BY_ANIMAL = {
   dog: [
     "Labrador Retriever",

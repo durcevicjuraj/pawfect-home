@@ -16,7 +16,7 @@ function safeName(original) {
 }
 
 export default function Profile() {
-  const { user } = useAuth(); // null | FirebaseUser
+  const { user } = useAuth(); 
   const [name, setName] = useState(user?.displayName || "");
   const [photoPreview, setPhotoPreview] = useState(user?.photoURL || "");
   const [file, setFile] = useState(null);

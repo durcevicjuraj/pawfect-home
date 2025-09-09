@@ -16,7 +16,8 @@ export default function App() {
           <div className="hero-content text-center">
             <div className="max-w-2xl">
               <div className="flex justify-center mb-3">
-                  <img src={logo} alt="Pawfect Home" className="w-24 h-24" />                </div>
+                  <img src={logo} alt="Pawfect Home" className="w-24 h-24" />                
+              </div>
               <h1 className="text-3xl md:text-4xl font-extrabold">
                 Find a pawfect home — adopt, don’t shop
               </h1>

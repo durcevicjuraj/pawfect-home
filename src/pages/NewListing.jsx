@@ -11,7 +11,7 @@ const MAX_MB = 8;
 const MAX_TITLE = 30;
 const MAX_DESC = 150;
 
-// block selling words/symbols (case-insensitive)
+// Block selling words
 const SELL_RE = /\b(price|money|euro|eur|dollar|usd|kn|kuna|hrk|sell|selling|for\s*sale)\b|[$€]/gi;
 
 function findBannedTerms(s) {
@@ -27,6 +27,7 @@ function findBannedTerms(s) {
   return Array.from(uniq);
 }
 
+// Clears image names
 function safeName(original) {
   const dot = original.lastIndexOf(".");
   const base = (dot >= 0 ? original.slice(0, dot) : original).toLowerCase();
@@ -35,6 +36,7 @@ function safeName(original) {
   return `${slug}${ext}`;
 }
 
+// Orders uploaded images
 function reorder(arr, from, to) {
   if (from === to) return arr;
   const copy = arr.slice();
@@ -48,7 +50,7 @@ export default function NewListing() {
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
 
-  // form fields
+  // Form fields
   const [title, setTitle] = useState("");
   const [animalType, setAnimalType] = useState("dog");
   const [breed, setBreed] = useState("Unknown");
@@ -58,31 +60,34 @@ export default function NewListing() {
   const [city, setCity] = useState("");
   const [description, setDescription] = useState("");
 
-  // contact (at least one required)
+  // Contact (at least one required)
   const [contactEmail, setContactEmail] = useState(auth.currentUser?.email || "");
   const [contactPhone, setContactPhone] = useState("");
 
-  // images
+  // Images
   const [files, setFiles] = useState([]);       // File[]
   const [previews, setPreviews] = useState([]); // object URLs
   const [dragIndex, setDragIndex] = useState(null);
 
-  // validations
+  // Validations
   const bannedInTitle = findBannedTerms(title);
   const bannedInDesc  = findBannedTerms(description);
   const titleOver = title.length > MAX_TITLE;
   const descOver  = description.length > MAX_DESC;
 
+  // Select breed
   useEffect(() => {
     const list = BREEDS_BY_ANIMAL[animalType] || ["Unknown"];
     setBreed(list[0] || "Unknown");
   }, [animalType]);
 
+  // For image previews
   function rebuildPreviews(nextFiles) {
     previews.forEach((u) => URL.revokeObjectURL(u));
     setPreviews(nextFiles.map((f) => URL.createObjectURL(f)));
   }
 
+  // Pick images
   function onPickFiles(e) {
     setErr("");
     const picked = Array.from(e.target.files || []);
@@ -114,6 +119,7 @@ export default function NewListing() {
     rebuildPreviews(unique);
   }
 
+  // Image order/removal functions
   function removeAt(i) {
     const next = files.slice();
     next.splice(i, 1);
@@ -151,6 +157,7 @@ export default function NewListing() {
   }
   function onDragEnd() { setDragIndex(null); }
 
+  // Submit function
   async function onSubmit(e) {
     e.preventDefault();
     if (loading) return;
@@ -193,7 +200,7 @@ export default function NewListing() {
         photos: [],
       });
 
-      // Upload in arranged order (first is cover)
+      // Upload images in arranged order (first is cover)
       let urls = [];
       if (files.length) {
         urls = await Promise.all(
@@ -260,7 +267,7 @@ export default function NewListing() {
                 Remove: {bannedInTitle.join(", ")}
               </span>
             )}
-</label>
+          </label>
 
 
           {/* Animal + Breed + Sex + Age */}

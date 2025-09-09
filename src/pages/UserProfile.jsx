@@ -1,11 +1,10 @@
-// UserProfile.jsx
 import { useEffect, useState } from "react";
 import { useParams, Link, useLocation } from "react-router-dom";
 import { doc, onSnapshot, collection, query, where } from "firebase/firestore";
 import { db } from "../lib/firebase";
 import { useAuth } from "../contexts/AuthContext";
 import ImageWithFallback from "../components/ImageWithFallback";
-import { CheckCircle2 } from "lucide-react"; // ⬅️ add this
+import { CheckCircle2 } from "lucide-react";
 
 function timeAgo(ts) {
   if (!ts) return "just now";
@@ -32,13 +31,12 @@ export default function UserProfile() {
   const [profile, setProfile] = useState(undefined);
   const [items, setItems] = useState(null);
 
-  // --- Avatar loading state (hooks must be unconditional) ---
+  //  Avatar loading state
   const photo = profile?.photoURL || null;
   const [imgLoading, setImgLoading] = useState(false);
   useEffect(() => { setImgLoading(!!photo); }, [photo]);
-  // ----------------------------------------------------------
 
-  // 1) Load the user profile
+  // Load the user profile
   useEffect(() => {
     if (!uid) return;
     const ref = doc(db, "users", uid);
@@ -50,7 +48,7 @@ export default function UserProfile() {
     return () => unsub();
   }, [uid]);
 
-  // 2) Load this user's listings and sort: available -> reserved -> adopted, then newest
+  //  Load this users listings and sort
   useEffect(() => {
     if (!uid) return;
     const qy = query(collection(db, "listings"), where("ownerUid", "==", uid));
@@ -61,7 +59,7 @@ export default function UserProfile() {
           const v = (s || "available").toLowerCase();
           if (v === "available") return 0;
           if (v === "reserved") return 1;
-          return 2; // adopted/anything else
+          return 2; // adopted
         };
         const rows = snap.docs.map(d => ({ id: d.id, ...d.data() }));
         rows.sort((a, b) => {
@@ -109,6 +107,7 @@ export default function UserProfile() {
         <div className="card bg-base-100 shadow-xl">
           <div className="card-body gap-4">
             <div className="flex items-center gap-4">
+              {/* Avatar*/}
               <div className="avatar">
                 <div className="relative w-16 h-16 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 overflow-hidden">
                   {photo ? (
@@ -130,6 +129,7 @@ export default function UserProfile() {
                 </div>
               </div>
 
+              {/* Username & Checkmark for shelters */}
               <div className="flex-1">
                 <h1 className="text-2xl font-bold flex items-center gap-2">
                   {profile.displayName || "Unnamed user"}
@@ -140,15 +140,16 @@ export default function UserProfile() {
                   )}
                 </h1>
 
-
-                <div className="flex items-center gap-2 mt-1">
-                  <span className="badge">{profile.role || "user"}</span>
-                  <span className="opacity-60 text-sm">Joined: {joined}</span>
-                </div>
+              {/* Date joined & Email */}
+              <div className="flex items-center gap-2 mt-1">
+                <span className="badge">{profile.role || "user"}</span>
+                <span className="opacity-60 text-sm">Joined: {joined}</span>
+              </div>
                 {isMe && <p className="opacity-60 text-sm mt-1">{profile.email}</p>}
               </div>
             </div>
-
+            
+            {/* Buttons */}
             <div className="card-actions justify-between mt-2">
               <button className="btn" onClick={copyLink}>Copy profile link</button>
               <div className="flex gap-2">

@@ -8,30 +8,28 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("user"); // "user" | "shelter"
+  const [role, setRole] = useState("user"); // "user" || "shelter"
   const [err, setErr] = useState("");
   const navigate = useNavigate();
 
+  // Register user
   async function onSubmit(e) {
     e.preventDefault();
     setErr("");
     try {
-      // create auth user
       const cred = await createUserWithEmailAndPassword(auth, email.trim(), password);
 
-      // optional display name
       if (displayName.trim()) {
         await updateProfile(cred.user, { displayName: displayName.trim() });
       }
 
-      // write user profile doc
       await setDoc(doc(db, "users", cred.user.uid), {
         uid: cred.user.uid,
         email: email.trim(),
         displayName: displayName.trim() || null,
         createdAt: serverTimestamp(),
-        role,                       // "user" or "shelter"
-        isVerifiedShelter: false,   // defaults to false
+        role,                       
+        isVerifiedShelter: false,
       });
 
       navigate("/");
@@ -47,6 +45,7 @@ export default function Register() {
         <div className="card-body gap-3">
           <h2 className="card-title">Create account</h2>
 
+         {/* Username */}
           <input
             className="input input-bordered"
             placeholder="Display name (optional)"
@@ -54,6 +53,7 @@ export default function Register() {
             onChange={e=>setDisplayName(e.target.value)}
           />
 
+          {/* Email */}
           <input
             className="input input-bordered"
             type="email"
@@ -63,6 +63,7 @@ export default function Register() {
             required
           />
 
+          {/* Password */}
           <input
             className="input input-bordered"
             type="password"
@@ -90,8 +91,10 @@ export default function Register() {
             )}
           </label>
 
+          {/* Error */}
           {err && <p className="text-error text-sm">{err}</p>}
 
+          {/* Buttons */}
           <div className="card-actions justify-between">
             <Link className="link" to="/login">Have an account?</Link>
             <button className="btn btn-primary" type="submit">Register</button>

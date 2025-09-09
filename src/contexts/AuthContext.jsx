@@ -10,8 +10,8 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
   const unsub = onAuthStateChanged(auth, (u) => {
-    setUser(u ?? null);                     // set immediately
-    if (u) ensureUserDoc(u).catch(console.warn); // do this after; don't block
+    setUser(u ?? null);                     
+    if (u) ensureUserDoc(u).catch(console.warn); 
   });
   return () => unsub();
 }, []);

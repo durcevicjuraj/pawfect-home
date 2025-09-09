@@ -1,4 +1,3 @@
-// src/pages/EditListing.jsx
 import { useEffect, useMemo, useState } from "react";
 import { useParams, useNavigate, Link, useLocation } from "react-router-dom";
 import { doc, getDoc, updateDoc, serverTimestamp } from "firebase/firestore";
@@ -23,6 +22,7 @@ function safeName(original) {
   const slug = base.replace(/\s+/g, "_").replace(/[^a-z0-9._-]/g, "");
   return `${slug}${ext}`;
 }
+
 function reorder(arr, from, to) {
   if (from === to) return arr;
   const copy = arr.slice();
@@ -38,7 +38,7 @@ export default function EditListing() {
   const location = useLocation();
 
   // loading states
-  const [item, setItem] = useState(undefined); // undefined=loading, null=not found
+  const [item, setItem] = useState(undefined);
   const [saving, setSaving] = useState(false);
   const [err, setErr] = useState("");
 
@@ -137,7 +137,6 @@ export default function EditListing() {
     setErr("");
     const picked = Array.from(e.target.files || []);
 
-    // validate and clip to remaining slots
     const remaining = Math.max(0, MAX_FILES - images.length);
     const add = [];
     for (const f of picked) {
@@ -155,7 +154,6 @@ export default function EditListing() {
     if (add.length === 0) return;
 
     setImages((prev) => [...prev, ...add]);
-    // reset the file input so same file can be picked again if removed
     e.target.value = "";
   }
 
@@ -260,7 +258,7 @@ export default function EditListing() {
 
       await updateDoc(doc(db, "listings", id), updates);
 
-      // Delete any removed old photos from Storage (best-effort)
+      // Delete any removed old photos from Storage
       const old = Array.isArray(item.photos) ? item.photos.filter(Boolean) : [];
       const removed = old.filter((u) => !finalPhotos.includes(u));
       if (removed.length) {

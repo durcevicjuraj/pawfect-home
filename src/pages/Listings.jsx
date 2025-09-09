@@ -29,7 +29,7 @@ function tsMs(ts) {
   return d.getTime();
 }
 
-// Lazy loading hook
+// Lazy loading 
 function useLazyLoading(items, itemsPerPage = 12) {
   const [visibleCount, setVisibleCount] = useState(itemsPerPage);
   const [isLoading, setIsLoading] = useState(false);
@@ -42,14 +42,14 @@ function useLazyLoading(items, itemsPerPage = 12) {
     if (isLoading || !hasMore) return;
     
     setIsLoading(true);
-    // Simulate slight delay for better UX
+
     setTimeout(() => {
       setVisibleCount(prev => Math.min(prev + itemsPerPage, items.length));
       setIsLoading(false);
     }, 100);
   }, [isLoading, hasMore, items.length, itemsPerPage]);
 
-  // Reset visible count when items change (e.g., filters applied)
+  // Reset visible count when items change (filtering)
   useEffect(() => {
     setVisibleCount(itemsPerPage);
   }, [items.length, itemsPerPage]);
@@ -165,7 +165,7 @@ export default function Listings() {
     return () => unsub();
   }, []);
 
-  // backfill owner names
+  // backfill owner names (dead code)
   useEffect(() => {
     if (!items) return;
     const missing = [...new Set(items.filter(x => !x.ownerName && x.ownerUid).map(x => x.ownerUid))];
@@ -224,7 +224,6 @@ export default function Listings() {
     });
   }, [items, fAgeWindow, fAnimal, fBreed, fCities, fSex, fAgeMin, fAgeMax]);
 
-  // sort so adopted go last; keep recency for the rest
   // sort so: available first, then reserved, then adopted; within each, newest first
   const sorted = useMemo(() => {
     const rank = (s) => {
@@ -239,7 +238,6 @@ export default function Listings() {
       const ra = rank(a.status);
       const rb = rank(b.status);
       if (ra !== rb) return ra - rb;
-      // same bucket → sort by createdAt desc
       return tsMs(b.createdAt) - tsMs(a.createdAt);
     });
     return copy;

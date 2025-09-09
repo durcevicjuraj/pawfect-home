@@ -40,12 +40,13 @@ export default function ListingDetail() {
   const location = useLocation();
   const { user } = useAuth();
 
-  const [item, setItem] = useState(undefined); // undefined=loading, null=not found
+  const [item, setItem] = useState(undefined);
   const [idx, setIdx] = useState(0);
   const [deleting, setDeleting] = useState(false);
 
   const from = location.state?.from;
 
+  // Go to previous page
   function goBack() {
     if (from) {
       navigate(-1);

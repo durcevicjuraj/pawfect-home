@@ -21,7 +21,6 @@ function IconLink({ to, tip, children }) {
   );
 }
 
-// Pick the DaisyUI themes you want to offer
 const THEMES = [
   "light",
   "dark",
